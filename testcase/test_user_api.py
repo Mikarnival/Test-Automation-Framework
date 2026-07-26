@@ -1,41 +1,13 @@
+from pathlib import Path
 from typing import Any
 
 import pytest
 
 from common.http_client import HttpClient
+from common.yaml_loader import load_yaml
 
-
-USER_CASES: list[dict[str, Any]] = [
-    {
-        "case_name": "Get active user",
-        "user_id": 1,
-        "expected_status_code": 200,
-        "expected_body": {
-            "id": 1,
-            "name": "Xinrui",
-            "active": True,
-        },
-    },
-    {
-        "case_name": "Get inactive user",
-        "user_id": 2,
-        "expected_status_code": 200,
-        "expected_body": {
-            "id": 2,
-            "name": "Mika",
-            "active": False,
-        },
-    },
-    {
-        "case_name": "Get missing user",
-        "user_id": 999,
-        "expected_status_code": 404,
-        "expected_body": {
-            "detail": "User not found",
-        },
-    },
-]
-
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+USER_CASES = load_yaml(PROJECT_ROOT / "data" / "user_cases.yaml")
 
 @pytest.mark.parametrize(
     "case",
