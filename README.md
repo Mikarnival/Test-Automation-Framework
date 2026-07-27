@@ -36,6 +36,10 @@ python -m pip install pytest requests fastapi uvicorn pyyaml
 ```bash
 python -m uvicorn mock_server.main:app --reload --port 8000
 ```
+Or
+```bash
+python -m mock_server.main
+```
 
 ## Run tests
 

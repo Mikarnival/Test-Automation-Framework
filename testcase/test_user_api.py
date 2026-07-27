@@ -33,9 +33,9 @@ def test_get_user(
     ids=[case["case_name"] for case in CREATE_USER_CASES],
 )
 def test_create_user(
-    http_client: HttpClient, 
-    case: dict[str, Any]
-    ) -> None:
+    http_client: HttpClient,
+    case: dict[str, Any],
+) -> None:
     response = http_client.post(
         "/api/users",
         json=case["request_body"],
@@ -49,6 +49,17 @@ def test_create_user(
         for key, expected_value in case["expected_body"].items():
             assert body[key] == expected_value
 
+    if case.get("verify_created_user", False):
+        created_user = response.json()
+        user_id = created_user["id"]
+
+        get_response = http_client.get(
+            f"/api/users/{user_id}"
+        )
+
+        assert get_response.status_code == 200
+        assert get_response.json() == created_user
+
 
 def test_create_user_without_name(
     http_client: HttpClient,
@@ -61,3 +72,4 @@ def test_create_user_without_name(
     )
 
     assert response.status_code == 422
+

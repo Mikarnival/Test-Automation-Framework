@@ -6,6 +6,7 @@
   expected_fields:
     name: Karina
     active: true
+  verify_created_user: true
 
 - case_name: Create inactive user
   request_body:
@@ -15,9 +16,11 @@
   expected_fields:
     name: Alex
     active: false
+  verify_created_user: false
 
 - case_name: Create user with empty name
   request_body:
     name: ""
     active: true
   expected_status_code: 422
+  verify_created_user: false

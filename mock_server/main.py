@@ -2,6 +2,7 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
+import uvicorn
 
 
 app = FastAPI()
@@ -59,3 +60,12 @@ def create_user(request: CreateUserRequest) -> dict[str, Any]:
 
     USERS[new_user_id] = user
     return user
+
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "mock_server.main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+    )
