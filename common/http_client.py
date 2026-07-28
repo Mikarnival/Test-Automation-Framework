@@ -63,5 +63,26 @@ class HttpClient:
             json=json,
         )
 
+    def put(
+        self,
+        path: str,
+        *,
+        json: dict[str, Any] | None = None,
+    ) -> Response:
+        return self.request(
+            method="PUT",
+            path=path,
+            json=json,
+        )
+
     def close(self) -> None:
         self.session.close()
+
+    def delete(
+        self,
+        path: str,
+    ) -> Response:
+        return self.request(
+            method="DELETE",
+            path=path,
+        )

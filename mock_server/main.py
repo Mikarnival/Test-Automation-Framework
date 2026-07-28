@@ -1,8 +1,10 @@
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Response, status
 from pydantic import BaseModel, Field
+import uvicorn
 
+from mock_server.data_store import USERS
 
 app = FastAPI()
 
@@ -11,19 +13,9 @@ class CreateUserRequest(BaseModel):
     name: str = Field(min_length=1, max_length=50)
     active: bool = True
 
-
-USERS: dict[int, dict[str, Any]] = {
-    1: {
-        "id": 1,
-        "name": "Xinrui",
-        "active": True,
-    },
-    2: {
-        "id": 2,
-        "name": "Mika",
-        "active": False,
-    },
-}
+class UpdateUserRequest(BaseModel):
+    name: str = Field(min_length=1, max_length=50)
+    active: bool
 
 
 @app.get("/health")
@@ -59,3 +51,46 @@ def create_user(request: CreateUserRequest) -> dict[str, Any]:
 
     USERS[new_user_id] = user
     return user
+
+
+@app.put(
+    "/api/users/{user_id}")
+def update_user(user_id: int, request: UpdateUserRequest) -> dict[str, Any]:
+    if user_id not in USERS:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+
+    update_user = {
+        "id": user_id,
+        "name": request.name,
+        "active": request.active,
+    }
+
+    USERS[user_id] = update_user
+    return update_user
+
+
+@app.delete("/api/users/{user_id}")
+def delete_user(user_id: int) -> dict[str, str]:
+    if user_id not in USERS:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+
+    del USERS[user_id]
+
+    return {
+        "message": "User deleted",
+    }
+
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "mock_server.main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+    )
