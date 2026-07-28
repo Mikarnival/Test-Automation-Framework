@@ -1,26 +1,32 @@
 - case_name: Create active user
   request_body:
-    name: Karina
+    name: Buding
     active: true
   expected_status_code: 201
   expected_fields:
-    name: Karina
+    name: Buding
     active: true
   verify_created_user: true
 
 - case_name: Create inactive user
   request_body:
-    name: Alex
+    name: Budian
     active: false
   expected_status_code: 201
   expected_fields:
-    name: Alex
+    name: Budian
     active: false
   verify_created_user: false
 
 - case_name: Create user with empty name
   request_body:
     name: ""
+    active: true
+  expected_status_code: 422
+  verify_created_user: false
+
+- case_name: Create user without name
+  request_body:
     active: true
   expected_status_code: 422
   verify_created_user: false

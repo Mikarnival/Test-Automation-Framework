@@ -3,7 +3,7 @@
   expected_status_code: 200
   expected_body:
     id: 1
-    name: Xinrui
+    name: Barbie
     active: true
 
 - case_name: Get inactive user
@@ -11,7 +11,7 @@
   expected_status_code: 200
   expected_body:
     id: 2
-    name: Mika
+    name: Feefee
     active: false
 
 - case_name: Get missing user
