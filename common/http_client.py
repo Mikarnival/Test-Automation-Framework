@@ -77,3 +77,12 @@ class HttpClient:
 
     def close(self) -> None:
         self.session.close()
+
+    def delete(
+        self,
+        path: str,
+    ) -> Response:
+        return self.request(
+            method="DELETE",
+            path=path,
+        )

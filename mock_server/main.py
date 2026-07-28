@@ -1,9 +1,10 @@
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Response, status
 from pydantic import BaseModel, Field
 import uvicorn
 
+from mock_server.data_store import USERS
 
 app = FastAPI()
 
@@ -16,19 +17,6 @@ class UpdateUserRequest(BaseModel):
     name: str = Field(min_length=1, max_length=50)
     active: bool
 
-
-USERS: dict[int, dict[str, Any]] = {
-    1: {
-        "id": 1,
-        "name": "Barbie",
-        "active": True,
-    },
-    2: {
-        "id": 2,
-        "name": "Feefee",
-        "active": False,
-    },
-}
 
 @app.get("/health")
 def health_check() -> dict[str, str]:
@@ -82,6 +70,21 @@ def update_user(user_id: int, request: UpdateUserRequest) -> dict[str, Any]:
 
     USERS[user_id] = update_user
     return update_user
+
+
+@app.delete("/api/users/{user_id}")
+def delete_user(user_id: int) -> dict[str, str]:
+    if user_id not in USERS:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+
+    del USERS[user_id]
+
+    return {
+        "message": "User deleted",
+    }
 
 
 if __name__ == "__main__":

@@ -30,3 +30,12 @@
     active: true
   expected_status_code: 422
   verify_created_user: false
+
+- case_name: Create user with default active
+  request_body:
+    name: Susu
+  expected_status_code: 201
+  expected_body:
+    name: Susu
+    active: true
+  verify_created_user: true
