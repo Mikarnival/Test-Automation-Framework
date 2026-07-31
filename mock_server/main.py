@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException, Response, status
 from pydantic import BaseModel, Field
 import uvicorn
 
-from mock_server.data_store import USERS
+from mock_server.data_store import USERS, reset_users
 
 app = FastAPI()
 
@@ -84,6 +84,15 @@ def delete_user(user_id: int) -> dict[str, str]:
 
     return {
         "message": "User deleted",
+    }
+
+
+@app.post("/api/test/reset")
+def reset_test_data() -> dict[str, str]:
+    reset_users()
+
+    return {
+        "message": "Test data reset",
     }
 
 
