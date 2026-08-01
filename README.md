@@ -5,12 +5,14 @@ A learning project for building a Python API automation test framework from scra
 ## Current features
 
 - FastAPI mock server
-- Requests-based HTTP client
-- Pytest fixtures
-- Pytest parameterization
+- Requests-based reusable HTTP client
+- GET, POST, PUT and DELETE user APIs
+- Pytest fixtures and parameterization
 - YAML-driven test data
-- GET API tests
-- Positive and negative test scenarios
+- Positive, negative and validation scenarios
+- Multi-step API workflow tests
+- Automatic test-data reset before every test
+- Git feature-branch and pull-request workflow
 
 ## Project structure
 

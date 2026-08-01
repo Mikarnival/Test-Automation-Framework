@@ -1,5 +1,4 @@
 from collections.abc import Generator
-from urllib import response
 
 import pytest
 

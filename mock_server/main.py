@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Response, status
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 import uvicorn
 
@@ -41,7 +41,7 @@ def get_user(user_id: int) -> dict[str, Any]:
     status_code=status.HTTP_201_CREATED,
 )
 def create_user(request: CreateUserRequest) -> dict[str, Any]:
-    new_user_id = max(USERS) + 1
+    new_user_id = max(USERS, default=0) + 1
 
     user = {
         "id": new_user_id,
