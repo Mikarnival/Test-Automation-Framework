@@ -3,7 +3,7 @@ from collections.abc import Generator
 import pytest
 
 from common.http_client import HttpClient
-
+from common.product_client import ProductClient
 
 @pytest.fixture
 def http_client() -> Generator[HttpClient, None, None]:
@@ -12,6 +12,11 @@ def http_client() -> Generator[HttpClient, None, None]:
     yield client
 
     client.close()
+
+
+@pytest.fixture
+def product_client(http_client: HttpClient) -> ProductClient:
+    return ProductClient(http_client=http_client)
 
 
 @pytest.fixture(autouse=True)
