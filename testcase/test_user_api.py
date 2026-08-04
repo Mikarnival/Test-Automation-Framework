@@ -41,7 +41,6 @@ def test_get_user(
     assert response.status_code == case["expected_status_code"]
     assert response.json() == case["expected_body"]
 
-
 @pytest.mark.parametrize(
     "case",
     CREATE_USER_CASES,
